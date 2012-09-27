@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySpecs.Specs", "MySpecs.Specs\MySpecs.Specs.csproj", "{CFE440FE-9CDA-40F7-84CB-AE78870093B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySpecs.Logic", "MySpecs.Logic\MySpecs.Logic.csproj", "{7E836966-78B1-4123-8E08-16BCB7F6C0E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{488D580C-56EC-4931-8EFF-91857387870B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySpecs.UnitTests", "MySpecs.UnitTests\MySpecs.UnitTests.csproj", "{8798C66E-8C27-4FFF-850B-687747B3E7CF}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = MySpecs.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFE440FE-9CDA-40F7-84CB-AE78870093B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFE440FE-9CDA-40F7-84CB-AE78870093B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFE440FE-9CDA-40F7-84CB-AE78870093B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFE440FE-9CDA-40F7-84CB-AE78870093B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E836966-78B1-4123-8E08-16BCB7F6C0E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E836966-78B1-4123-8E08-16BCB7F6C0E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E836966-78B1-4123-8E08-16BCB7F6C0E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E836966-78B1-4123-8E08-16BCB7F6C0E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8798C66E-8C27-4FFF-850B-687747B3E7CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8798C66E-8C27-4FFF-850B-687747B3E7CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8798C66E-8C27-4FFF-850B-687747B3E7CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8798C66E-8C27-4FFF-850B-687747B3E7CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CFE440FE-9CDA-40F7-84CB-AE78870093B3} = {488D580C-56EC-4931-8EFF-91857387870B}
+		{8798C66E-8C27-4FFF-850B-687747B3E7CF} = {488D580C-56EC-4931-8EFF-91857387870B}
+	EndGlobalSection
+EndGlobal

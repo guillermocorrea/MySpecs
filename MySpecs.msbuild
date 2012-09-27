@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ 
+	<!--******************-->
+	<!-- Build Properties -->
+	<!--******************-->
+ 
+  <PropertyGroup>
+		<!-- The build target configuration (Debug versus Release) -->
+    <Configuration>Debug</Configuration>
+		
+		<!-- General Paths -->
+		<!-- The root directory containing the build file -->
+		<RootPath>$(MSBuildProjectDirectory)</RootPath>
+		<!-- The source code directory -->
+		<!--<SrcBasePath>$(RootPath)\MySpecs.Specs</SrcBasePath>-->
+		<SrcBasePath>MySpecs.Specs</SrcBasePath>
+		<!-- The tools directory -->
+		<ToolsBasePath>packages</ToolsBasePath>
+		<!-- The reports directory -->
+		<ReportsPath>reports</ReportsPath>
+		<!-- The Source Code Solution Name, this is conventions based and should be named the same as the build file. 
+		     e.g. example.sln should have a matching example.msbuild file -->
+		<BuildSolutionFile>$(MSBuildProjectName).sln</BuildSolutionFile>
+		<!-- The tools path for the MSBuild Extension Pack -->
+		<MSBuildExtensionsPath>$(ToolsBasePath)\MSBuild\MSBuildExtensionPack</MSBuildExtensionsPath>
+		<!-- The tools path for the MSBuild Community Tasks Pack -->
+		<MSBuildCommunityExtensionsPath>$(ToolsBasePath)\MSBuild\MSBuildCommunityTasks</MSBuildCommunityExtensionsPath>
+		
+		<!-- NUnit -->
+		<!-- The tools path for NUnit -->
+    	<NUnitPath>$(ToolsBasePath)\NUnit.2.6.1\lib</NUnitPath>
+		<!-- NUnit report name and location -->
+		<NUnitOuputFile>$(ReportsPath)\nunit-output.xml</NUnitOuputFile>
+		
+		<NUnitOuputSpecsFile>$(ReportsPath)\nunit-specs-output.xml</NUnitOuputSpecsFile>
+		
+		<!-- StyleCop -->
+		<!-- The tools path for StyleCop -->
+		<StyleCopPath>$(ToolsBasePath)\StyleCop.4.7.33.0\lib\net35\</StyleCopPath>
+		<!-- The StyleCop report name and location -->
+		<!-- <StyleCopOutputFile>$(ReportsPath)\stylecop-output.xml</StyleCopOutputFile> -->
+		<!-- The StyleCop max violations count -->
+		<!-- <StyleCopMaxViolationCount>500</StyleCopMaxViolationCount>-->
+		<!-- StyleCop Force Full Analysis -->
+		<!-- <StyleCopForceFullAnalysis>true</StyleCopForceFullAnalysis>-->
+		<!-- StyleCop Treat Errors As Warnings -->
+		<!-- <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>-->
+		<!-- StyleCop Cache Results -->
+		<!-- <StyleCopCacheResults>false</StyleCopCacheResults>-->
+
+		<!--<StyleCopPath>$(ToolsBasePath)\StyleCop.4.7.33.0</StyleCopPath>-->
+		<!-- The StyleCop report name and location -->
+		<StyleCopOutputFile>$(ReportsPath)\stylecop-output.xml</StyleCopOutputFile>
+		<!-- The StyleCop max violations count -->
+		<StyleCopMaxViolationCount>999</StyleCopMaxViolationCount>
+		<!-- StyleCop Force Full Analysis -->
+		<StyleCopForceFullAnalysis>true</StyleCopForceFullAnalysis>
+		<!-- StyleCop Treat Errors As Warnings -->
+		<StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
+		<!-- StyleCop Cache Results -->
+		<StyleCopCacheResults>false</StyleCopCacheResults>
+				
+		<!-- OpenCover -->
+		<!-- The tools path for OpenCover -->
+		<OpenCoverPath>$(ToolsBasePath)\OpenCover.4.0.519</OpenCoverPath>
+		<ReportGeneratorPath>$(ToolsBasePath)\ReportGenerator.1.5.0.0</ReportGeneratorPath>
+		<!-- OpenCover report name and location -->
+		<OpenCoverOuputFile>$(ReportsPath)\coverage-output.xml</OpenCoverOuputFile>
+		<OpenCoverTmpOuputFile>$(ReportsPath)\coverage-tmp-output.xml</OpenCoverTmpOuputFile>
+		<OpenCoverReportPath>$(ReportsPath)\cobertura</OpenCoverReportPath>
+
+		<!--<OpenCoverCommand>$(OpenCoverPath)\OpenCover.Console.exe -target:&quot;$(NUnitPath)\nunit-console.exe&quot; -targetargs:&quot;/noshadow @(TestAssemblies) /domain:single /xml:$(NUnitOuputFile)&quot; -filter:&quot;-[$(MSBuildProjectName)*.Tests]* +[$(MSBuildProjectName)*]$(MSBuildProjectName).*&quot; -output:$(OpenCoverTmpOuputFile)</OpenCoverCommand>-->
+		<OpenCoverCommand>&quot;$(OpenCoverPath)\OpenCover.Console.exe&quot; -register:user -target:&quot;$(NUnitPath)\nunit-console.exe&quot; -targetargs:&quot;/noshadow @(TestAssemblies) /domain:single /xml:&quot;$(NUnitOuputFile)&quot; -output:&quot;$(OpenCoverTmpOuputFile)&quot;</OpenCoverCommand>
+
+		<!-- Doxygen -->
+		<DoxygenExePath>tools\doxygen-1.8.1.2\doxygen.exe</DoxygenExePath>
+		<DoxygenConfigFile>tools\doxygen-1.8.1.2\config</DoxygenConfigFile>
+
+		<!-- Simian duplication code detection tool -->
+		<SimianExeToolPath>$(ToolsBasePath)\simian-2.3.33\bin\simian-2.3.33.exe</SimianExeToolPath>
+		<SimianOutputFile>$(ReportsPath)\simian-output.xml</SimianOutputFile>
+		<SimianCommand>&quot;$(SimianExeToolPath)&quot; -formatter=xml:&quot;$(SimianOutputFile)&quot; -excludes=**/*.Test/**/*.cs -excludes=**/*.DbFrame/**/*.cs -excludes=**/*. DbLayout/**/*.cs -excludes=**/*.Designer.cs -excludes=**/XServer1_8.cs -threshold=10 **/*.cs </SimianCommand>
+		
+		<SpecFlowPath>$(ToolsBasePath)\SpecFlow.1.9.0\tools\specflow.exe</SpecFlowPath>
+		<SpecFlowReport>$(ReportsPath)\spec-flow-out.html</SpecFlowReport>
+
+		<!-- Assembly Versioning -->
+		<!-- Major -->
+		<AssemblyMajorVersion>1</AssemblyMajorVersion>
+		<!-- Minor -->
+		<AssemblyMinorVersion>0</AssemblyMinorVersion>
+		<!-- Build -->
+		<AssemblyBuildNumber>0</AssemblyBuildNumber>
+		<!-- Revision -->
+		<AssemblyRevision>0</AssemblyRevision>
+		
+  </PropertyGroup>
+ 
+	<!--****************-->
+	<!-- Imported Tasks -->
+	<!--****************-->
+ 
+	<!-- Include the MSBuild Extension Pack NUnit Task -->
+  <UsingTask AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.ExtensionPack.dll" 
+						 TaskName="MSBuild.ExtensionPack.CodeQuality.NUnit"/> 
+	<!-- Include the MSBuild Extension Pack AssemblyInfo Task -->
+	<UsingTask AssemblyFile="$(MSBuildExtensionsPath)\MSBuild.ExtensionPack.dll" 
+						 TaskName="MSBuild.ExtensionPack.Framework.AssemblyInfo"/>
+	<!-- Include the StyleCop task -->
+	<UsingTask AssemblyFile="$(StyleCopPath)\StyleCop.dll" 
+						 TaskName="Microsoft.StyleCop.StyleCopTask"/>
+ 
+	<!--***************-->
+	<!-- Build Targets -->
+	<!--***************-->
+	
+	<!-- The Clean Target -->
+  <Target Name="Clean">
+	<!-- Remove the reports directory if it already exists from a previous build -->
+	<Message Text="$(ReportsPath)" />
+	<RemoveDir Directories="$(ReportsPath)" Condition = "Exists('$(ReportsPath)')" />
+	<!-- Create the reports directory for this builds output -->
+	<MakeDir Directories = "$(ReportsPath)"  />
+	<!-- Clean the source code projects -->
+    <MSBuild Projects="$(BuildSolutionFile)" ContinueOnError="false" Targets="Clean"
+            Properties="Configuration=$(Configuration)" />
+  </Target>
+ 
+ <!-- The Label Target that sets the AssemblyInfo Build Version -->
+ <Target Name="Label">
+		<!-- Include all assemblies that end in Tests.dll (This is convention based) -->
+    <CreateItem Include="**\AssemblyInfo.cs" exclude="**\*.Tests\Properties\AssemblyInfo.cs;**\*.Specs\Properties\AssemblyInfo.cs">
+      <Output TaskParameter="Include" ItemName="AssemblyInfoFiles" />
+    </CreateItem>
+   <!-- Update an attribute and don't do any versioning -->
+   <MSBuild.ExtensionPack.Framework.AssemblyInfo AssemblyInfoFiles="@(AssemblyInfoFiles)" SkipVersioning="false" Condition="'$(CCNetLabel)' != ''"
+		AssemblyMajorVersion="$(AssemblyMajorVersion)" 
+		AssemblyMinorVersion="$(AssemblyMinorVersion)" 
+		AssemblyBuildNumber="$(AssemblyBuildNumber)" 
+		AssemblyRevision="$(CCNetLabel)"
+		AssemblyFileMajorVersion="$(AssemblyMajorVersion)" 
+		AssemblyFileMinorVersion="$(AssemblyMinorVersion)" 
+		AssemblyFileBuildNumber="$(AssemblyBuildNumber)" 
+		AssemblyFileRevision="$(CCNetLabel)"		
+		/>
+ 
+ </Target>
+ 
+ <!-- The Code Quality Target, checks the source code for stylistic compliance via StyleCop -->
+	<Target Name="CodeQuality">
+		<!-- Create a collection of files to scan -->
+		<CreateItem Include="$(SrcBasePath)\**\*.cs">
+				<Output TaskParameter="Include" ItemName="StyleCopFiles"/>
+		</CreateItem>
+		<!-- Run the StyleCop MSBuild task -->
+		<Microsoft.StyleCop.StyleCopTask
+			ProjectFullPath="$(RootPath)"
+      SourceFiles="@(StyleCopFiles)"
+      ForceFullAnalysis="$(StyleCopForceFullAnalysis)"
+      TreatErrorsAsWarnings="$(StyleCopTreatErrorsAsWarnings)"
+      CacheResults="$(StyleCopCacheResults)"
+      OverrideSettingsFile="$(SrcBasePath)\Settings.StyleCop"
+      OutputFile="$(StyleCopOutputFile)"
+      MaxViolationCount="$(StyleCopMaxViolationCount)">
+    </Microsoft.StyleCop.StyleCopTask>
+	</Target>
+
+		<!-- The Compile Target, compiles the source code for the solution -->
+  <Target Name="Compile" DependsOnTargets="Clean">
+    <MSBuild Projects="$(BuildSolutionFile)" ContinueOnError="false" Properties="Configuration=$(Configuration)">
+      <Output ItemName="BuildOutput" TaskParameter="TargetOutputs"/>
+    </MSBuild>
+  </Target>
+  
+	<!-- The Test Target, runs unit tests on the compiled source code via NUnit -->
+  <Target Name="Test">
+		<!-- Include all assemblies that end in Tests.dll (This is convention based) -->
+    <CreateItem Include="**\Bin\Debug\*UnitTests.dll" >
+      <Output TaskParameter="Include" ItemName="TestAssemblies" />
+    </CreateItem>
+ 
+		<MSBuild.ExtensionPack.CodeQuality.NUnit Assemblies="@(TestAssemblies)" ToolPath="$(NUnitPath)" OutputXmlFile="$(NUnitOuputFile)">
+    </MSBuild.ExtensionPack.CodeQuality.NUnit>
+  </Target>
+
+	<!-- Generates Apidoc -->
+    <Target Name="ApiDoc">	
+		<Exec Command="$(DoxygenExePath) $(DoxygenConfigFile)" ContinueOnError="false" />
+	</Target>
+	
+	<Target Name="RunSpecs">
+		<!-- Include all assemblies that end in Specs.dll (This is convention based) -->
+    <CreateItem Include="**\Bin\Debug\*Specs.dll" >
+      <Output TaskParameter="Include" ItemName="SpecsAssemblies" />
+    </CreateItem>
+ 
+		<MSBuild.ExtensionPack.CodeQuality.NUnit Assemblies="@(SpecsAssemblies)" ToolPath="$(NUnitPath)" OutputXmlFile="$(NUnitOuputSpecsFile)">
+    </MSBuild.ExtensionPack.CodeQuality.NUnit>
+  </Target>
+	
+	<Target Name="SpecsReport">
+		<Exec Command="&quot;$(SpecFlowPath)&quot; nunitexecutionreport $(BuildSolutionFile) /xmlTestResult:&quot;$(NUnitOuputSpecsFile)&quot; /out:reports\specs-output.html" ContinueOnError="false" />
+	</Target>
+	
+	<Target Name="CiCoverage" DependsOnTargets="Clean;CodeQuality;Compile;Test;CodeCoverage;RunSpecs;SpecsReport"></Target>
+ 
+ <!-- The Code Coverage Target, checks code coverage using opencover and NUnit, the 
+			task generates both a coverage report and the test report -->
+   <Target Name="CodeCoverage" DependsOnTargets="Test">
+   <!--<Target Name="CodeCoverage">-->
+		<!-- Include all assemblies that end in UnitTests.dll (This is convention based) -->
+    <CreateItem Include="**\Bin\Debug\*UnitTests*.dll" >
+      <Output TaskParameter="Include" ItemName="TestAssemblies" />
+    </CreateItem>
+
+    <Message Text="CodeCoverage" />
+
+    <MakeDir Directories="$(OpenCoverReportPath)"/>
+
+	<Exec Command="&quot;$(OpenCoverPath)\OpenCover.Console.exe&quot; -register:user -target:&quot;$(NUnitPath)\nunit-console.exe&quot; -targetargs:&quot;/noshadow MySpecs.UnitTests\bin\Debug\MySpecs.UnitTests.dll&quot; -filter:&quot;+[MySpecs*]* -[MySpecs.UnitTests]*&quot; -output:&quot;$(OpenCoverOuputFile)&quot;" />
+
+	<Copy SourceFiles="TestResult.xml" DestinationFiles="$(ReportsPath)\opencover-nunit-output.xml"></Copy>
+
+	<Delete Files="TestResult.xml"></Delete>
+
+	<Exec Command="&quot;$(ReportGeneratorPath)\ReportGenerator.exe&quot; &quot;$(OpenCoverOuputFile)&quot; &quot;$(OpenCoverReportPath)&quot;" />
+
+	<Message Text="CodeCoverage finished" />
+		
+  </Target>
+
+  <!-- The CodeDuplicated Target, runs simian code duplication detection tool-->
+  <Target Name="CodeDuplicated">
+  	<!-- tools\simian-2.3.33\bin\simian-2.3.33.exe -formatter=xml:artifacts\Simian.Result.xml -excludes=**/*.Test/**/*.cs -excludes=**/*.DbFrame/**/*.cs -excludes=**/*. DbLayout/**/*.cs -excludes=**/*.Designer.cs -excludes=**/XServer1_8.cs -threshold=10 **/*.cs  -->
+  	<Message Text="$(SimianCommand)" />
+  	<Exec IgnoreExitCode="true" Command="$(SimianCommand)" />
+  </Target>
+	
+ <!-- The Specs Target, runs the context specifications on the compiled source code via MSpec -->
+ <Target Name="Specs" DependsOnTargets="Compile">
+		<!-- Include all assemblies that end in Specs.dll (This is convention based) -->
+    <CreateItem Include="**\Bin\Debug\*Specs*.dll" >
+      <Output TaskParameter="Include" ItemName="SpecsAssemblies" />
+    </CreateItem>
+ 
+    <PropertyGroup>
+      <MSpecCommand>
+        $(MSpecPath)\$(MSpecExecutable) $(MSpecSettings) @(SpecsAssemblies) --xml $(MSpecPathOutputFile)
+      </MSpecCommand>
+    </PropertyGroup>
+    <Message Importance="high" Text="Running Specs with this command: $(MSpecCommand)"/>
+    <Exec Command="$(MSpecCommand)" />
+ </Target>
+ 
+ <!-- The default build task that pulls the other tasks together -->
+	<!--<Target Name="Build" DependsOnTargets="Clean;CodeQuality;Compile;Test;Specs">
+	</Target>-->
+	<Target Name="Build" DependsOnTargets="Clean;CodeQuality;Compile">
+	</Target>
+	
+ <!-- The CI build task that pulls the other tasks together and includes assembly labelling that pulls in the CI servers build number -->
+	<Target Name="CI" DependsOnTargets="Clean;CodeQuality;Label;Compile;Tests">
+	</Target>	
+	
+ <!-- The CI build task that pulls the other tasks together, tests are run including codecoverage and includes assembly labelling that pulls in the CI servers build number -->
+	<!--<Target Name="CICoverage" DependsOnTargets="Clean;CodeQuality;Compile;ApiDoc;CodeCoverage;CodeDuplicated;Test">
+	</Target>-->
+</Project>
